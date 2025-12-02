@@ -10,7 +10,7 @@ public class Device
     [Required(ErrorMessage="O nome do dispositivo é obrigatório")]
     [MinLength(5, ErrorMessage="O nome do dispositivo deve ter no mínimo 5 caracteres")]
     [MaxLength(50, ErrorMessage="O nome do dispositivo deve ter no máximo 50 caracteres")]
-    public string DeviceName { get; set; }
+    public string Name { get; set; }
 
     [Required(ErrorMessage="O tipo do dispositivo é obrigatório")]
     public DeviceType DeviceType { get; set; }

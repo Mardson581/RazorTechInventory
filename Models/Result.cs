@@ -1,6 +1,6 @@
 namespace TechInventory.Models;
 
-public class Result<T> where T : class
+public class Result<T>
 {
     public bool IsSucess { get; }
     public string Message { get; }

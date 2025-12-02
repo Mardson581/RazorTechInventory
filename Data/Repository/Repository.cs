@@ -35,7 +35,7 @@ public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T
         return await _set.FindAsync(new object[]{ Id });
     }
 
-    public async Task<List<T>> GetAllAsync()
+    public virtual async Task<List<T>> GetAllAsync()
     {
         return await _set.AsNoTracking().ToListAsync();
     }

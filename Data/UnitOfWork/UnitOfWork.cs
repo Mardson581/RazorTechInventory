@@ -44,7 +44,7 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger)
         }
     }
 
-    public async Task<Result<int>> Commit()
+    public async Task<Result<int>> CommitAsync()
     {
         try
         {

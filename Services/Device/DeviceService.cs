@@ -1,0 +1,68 @@
+using TechInventory.Models;
+using TechInventory.Data.Repository;
+using TechInventory.Data.UnitOfWork;
+
+namespace TechInventory.Services.Device;
+
+public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
+{
+    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly IRepository<Models.Device> _repository = unitOfWork.DeviceRepository;
+
+    public async Task<Result<bool>> AddDevice(Models.Device device)
+    {
+        await _repository.CreateAsync(device);
+        var result = await _unitOfWork.CommitAsync();
+
+        if (!result.IsSuccessful)
+            return Result<bool>.Failure(result.Message, false);
+        return Result<bool>.Success(true);
+    }
+
+    public async Task<Result<bool>> DeleteDevice(int id)
+    {
+        var device = await _repository.GetAsync(id);
+        if (device is null)
+            return Result<bool>.Failure($"Device with Id {id} not found.", false);
+
+        var deleteResult = await _repository.DeleteAsync(id);
+        if (!deleteResult.IsSuccessful)
+            return Result<bool>.Failure(deleteResult.Message, false);
+
+        var commitResult = await _unitOfWork.CommitAsync();
+
+        return commitResult.IsSuccessful ? Result<bool>.Success(true) : Result<bool>.Failure(commitResult.Message, false);
+    }
+
+    public async Task<Result<bool>> UpdateDevice(Models.Device device)
+    {
+        _repository.Update(device);
+        var commitResult = await _unitOfWork.CommitAsync();
+        
+        if (commitResult.IsSuccessful)
+            return Result<bool>.Success(true);
+        return Result<bool>.Failure(commitResult.Message, false);
+    }
+
+    public async Task<Models.Device?> GetDeviceById(int id)
+    {
+        return await _repository.GetAsync(id);
+    }
+
+    public async Task<Models.Device> GetDeviceByName(string name)
+    {
+        List<Models.Device> devices = await _repository.GetAllAsync();
+        return devices.FirstOrDefault(d => d.Name == name);
+    }
+
+    public Task<List<Models.Device>> GetAllDevices()
+    {
+        return _repository.GetAllAsync();
+    }
+
+    public async Task<List<Models.Device>> GetAllDevicesWithStatus(DeviceStatus status)
+    {
+        List<Models.Device> devices = await _repository.GetAllAsync();
+        return devices.Where(d => d.Status == status).ToList();
+    }
+}

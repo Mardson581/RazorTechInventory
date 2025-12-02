@@ -2,13 +2,13 @@ namespace TechInventory.Models;
 
 public class Result<T>
 {
-    public bool IsSucess { get; }
+    public bool IsSuccessful { get; }
     public string Message { get; }
     public T? Data { get; }
 
     private Result(bool sucess, string message, T? data)
     {
-        IsSucess = sucess;
+        IsSuccessful = sucess;
         Message = message;
         Data = data;
     }

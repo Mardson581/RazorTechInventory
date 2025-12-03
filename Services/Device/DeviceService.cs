@@ -54,7 +54,14 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
 
     public async Task<List<Models.Device>> GetAllDevicesWithStatus(DeviceStatus status)
     {
-        List<Models.Device> devices = await _repository.GetAllAsync();
-        return devices.Where(d => d.Status == status).ToList();
+        return await _repository.GetWhere(d => d.Status == status);
+    }
+
+    public async Task<List<Models.Device>> GetAllDevicesByBrand(Models.Brand brand)
+    {
+        return await _repository.GetWhere(
+            d => d.Model.BrandId == brand.BrandId,
+            "Model"
+        );
     }
 }

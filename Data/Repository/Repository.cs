@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TechInventory.Data.Context;
 using TechInventory.Models;
+using System.Linq.Expressions;
 
 namespace TechInventory.Data.Repository;
 
@@ -38,5 +39,34 @@ public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T
     public virtual async Task<List<T>> GetAllAsync()
     {
         return await _set.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string[] includes = null)
+    {
+        IQueryable<T> query = _set;
+
+        if (filter != null)
+            query = _set.Where(filter);
+        
+        if (includes != null)
+            foreach (string property in includes)
+            {
+                query = query.Include(property.Trim());
+            }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string includes)
+    {
+        IQueryable<T> query = _set;
+
+        if (filter != null)
+            query = _set.Where(filter);
+        
+        if (includes != null)
+            query = query.Include(includes.Trim());
+
+        return await query.ToListAsync();
     }
 }

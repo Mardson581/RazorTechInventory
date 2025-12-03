@@ -12,4 +12,5 @@ public interface IDeviceService
 
     public Task<List<Models.Device>> GetAllDevices();
     public Task<List<Models.Device>> GetAllDevicesWithStatus(DeviceStatus status);
+    public Task<List<Models.Device>> GetAllDevicesByBrand(Models.Brand brand);
 }

@@ -1,4 +1,5 @@
 using TechInventory.Models;
+using System.Linq.Expressions;
 
 namespace TechInventory.Data.Repository;
 
@@ -10,4 +11,7 @@ public interface IRepository<T> where T : class
 
     public Task<T?> GetAsync(int Id);
     public Task<List<T>> GetAllAsync();
+
+    public Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string[] includes = null);
+    public Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string includes);
 }

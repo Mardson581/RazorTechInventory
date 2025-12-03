@@ -12,18 +12,14 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
     public async Task<Result<bool>> AddDevice(Models.Device device)
     {
         await _repository.CreateAsync(device);
-        var result = await _unitOfWork.CommitAsync();
-
-        if (!result.IsSuccessful)
-            return Result<bool>.Failure(result.Message, false);
-        return Result<bool>.Success(true);
+        return await _unitOfWork.CommitAsync();
     }
 
     public async Task<Result<bool>> DeleteDevice(int id)
     {
         var device = await _repository.GetAsync(id);
         if (device is null)
-            return Result<bool>.Failure($"Device with Id {id} not found.", false);
+            return Result<bool>.Failure($"Dispositivo com Id {id} não foi encontrado", false);
 
         var deleteResult = await _repository.DeleteAsync(id);
         if (!deleteResult.IsSuccessful)
@@ -37,11 +33,7 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
     public async Task<Result<bool>> UpdateDevice(Models.Device device)
     {
         _repository.Update(device);
-        var commitResult = await _unitOfWork.CommitAsync();
-        
-        if (commitResult.IsSuccessful)
-            return Result<bool>.Success(true);
-        return Result<bool>.Failure(commitResult.Message, false);
+        return await _unitOfWork.CommitAsync();
     }
 
     public async Task<Models.Device?> GetDeviceById(int id)

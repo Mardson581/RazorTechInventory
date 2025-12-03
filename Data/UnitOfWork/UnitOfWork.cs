@@ -44,17 +44,17 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger)
         }
     }
 
-    public async Task<Result<int>> CommitAsync()
+    public async Task<Result<bool>> CommitAsync()
     {
         try
         {
-            int updatesMade = await _context.SaveChangesAsync();
-            return Result<int>.Success(updatesMade);
+            await _context.SaveChangesAsync();
+            return Result<bool>.Success(true);
         }
         catch (DbUpdateException ex)
         {
             _logger.LogError(ex, "UnitOfWork::Commit falhou");
-            return Result<int>.Failure("Não foi possível salvar as informações (erro interno)", 0);
+            return Result<bool>.Failure("Não foi possível salvar as informações (erro interno)", false);
         }
     }
 }

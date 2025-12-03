@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechInventory.Services.Device;
 
-namespace TechInventory.Pages
+namespace TechInventory.Pages.Device
 {
-    public class DeviceModel(IDeviceService service) : PageModel
+    public class IndexModel(IDeviceService service) : PageModel
     {
         private readonly IDeviceService _service = service;
         public List<Models.Device> Devices = default!;

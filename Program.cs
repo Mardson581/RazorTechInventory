@@ -1,4 +1,5 @@
 using TechInventory.Services.Device;
+using TechInventory.Services.DeviceModel;
 using TechInventory.Data.UnitOfWork;
 using TechInventory.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
 
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 
 var app = builder.Build();
 

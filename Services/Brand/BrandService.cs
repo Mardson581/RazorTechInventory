@@ -30,6 +30,7 @@ public class BrandService(UnitOfWork unitOfWork) : IBrandService
         _repository.Update(brand);
         return await _unitOfWork.CommitAsync();
     }
+    
     public async Task<Result<bool>> DeleteBrand(int id)
     {
         await _repository.DeleteAsync(id);

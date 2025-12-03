@@ -1,7 +1,18 @@
+using TechInventory.Services.Device;
+using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<InventoryDbContext>(options =>
+    options.UseInMemoryDatabase("TestDatabase"));
+
+builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
 
 var app = builder.Build();
 

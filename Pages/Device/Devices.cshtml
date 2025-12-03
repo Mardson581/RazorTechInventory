@@ -1,0 +1,16 @@
+﻿@page
+@model TechInventory.Pages.DeviceModel
+@{
+    ViewData["Title"] = "Devices";
+}
+
+
+@foreach (var device in Model.Devices)
+{
+    <div class="container">
+        <div class="d-flex flex-row mb-2">
+            <h1>@device.Name</h1>
+            <p>@device.Status</p>
+        </div>
+    </div>
+}

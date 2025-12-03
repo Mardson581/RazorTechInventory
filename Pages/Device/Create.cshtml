@@ -1,0 +1,61 @@
+﻿@page
+@model TechInventory.Pages.CreateModel
+@{
+    ViewData["Title"] = "Cadastrar dispositivo";
+}
+
+<form method="post" asp-page-handler="Create">
+    <div class="form-group mb-3">
+        <label asp-for="NewDevice.Name" class="me-3">Nome</label>
+        <input asp-for="NewDevice.Name" class="form-control" />
+        <span asp-validation-for="NewDevice.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="NewDevice.DeviceType">Tipo de dispositivo</label>
+        <select asp-for="NewDevice.DeviceType" class="form-control" id="Size">
+            <option value="">-- Escolha o tipo do dispositivo --</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Notebook">Notebook</option>
+            <option value="Keyboard">Teclado</option>
+            <option value="Printer">Impressora</option>
+            <option value="Toner">Toner</option>
+            <option value="Scanner">Scanner</option>
+            <option value="Switch">Switch</option>
+            <option value="Router">Roteador</option>
+            <option value="Modem">Modem</option>
+        </select>
+        <span asp-validation-for="NewDevice.DeviceType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="NewDevice.Status">Estado do disposivito</label>
+        <select asp-for="NewDevice.Status" class="form-control" id="Status">
+            <option value="">-- Escolha o estado do dispositivo --</option>
+            <option value="Ativo">Ativo</option>
+            <option value="Defeituoso">Defeituoso</option>
+            <option value="Descartado">Descartado</option>
+        </select>
+        <span asp-validation-for="NewDevice.Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="NewDevice.DeviceModelId">Modelo do dispositivo</label>
+        <select asp-for="NewDevice.DeviceModelId" class="form-control" id="DeviceModelId">
+            <option value="">-- Escolha o modelo do dispositivo --</option>
+            @foreach (var deviceModel in Model.DeviceModels)
+            {
+                <option value="@deviceModel.DeviceModelId">@deviceModel.Name</option>
+            }
+        </select>
+        <span asp-validation-for="NewDevice.DeviceModelId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Cadastrar" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -31,8 +31,7 @@ namespace TechInventory.Pages.DeviceModel
         public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
-                return Page();
-                //TempData["Message"] = "Os dados não eram válidos!";
+                TempData["Message"] = "Os dados não eram válidos!";
 
             DeviceModel.DeviceModelId = id;
             var result = await _service.UpdateDeviceModel(DeviceModel);

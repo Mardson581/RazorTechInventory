@@ -22,7 +22,7 @@ public class DeviceModelService(UnitOfWork unitOfWork) : IDeviceModelService
 
     public async Task<List<Models.DeviceModel>> GetAllDeviceModels()
     {
-        return await _repository.GetAllAsync();
+        return await _repository.GetWhere(null, "Brand");
     }
 
     public async Task<Result<bool>> UpdateDeviceModel(Models.DeviceModel deviceModel)

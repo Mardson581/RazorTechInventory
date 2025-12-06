@@ -18,8 +18,8 @@
 {
     <div class="container">
         <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex justify-content-between align-items-center mb-2 border border-secondary rounded">
-            <h4 style="margin: 0; padding: 0;">@device.Name</h4>
-            <p>Status: @device.Status</p>
+            <h4 style="margin: 0; padding: 0;">@device.Name (@device.Model.Name)</h4>
+            <p style="margin: 0">Status: @device.Status</p>
 
             <div class="d-flex">
                 <form class="me-2" method="post" asp-page="Delete" asp-route-id="@device.DeviceId">

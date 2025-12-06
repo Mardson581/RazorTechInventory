@@ -21,8 +21,8 @@ namespace TechInventory.Pages.Device
 
             if (Device == null)
             {
-                ViewData["Message"] = "Dispositivo não encontrado";
-                return RedirectToPage("Device", "Index");
+                TempData["Message"] = "Dispositivo não encontrado";
+                return RedirectToPage("/Device/Index");
             }
 
             DeviceModels = await _deviceModelService.GetAllDeviceModels();
@@ -32,21 +32,21 @@ namespace TechInventory.Pages.Device
         public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
-                ViewData["Message"] = "Ocorreu um erro ao validar os dados";
+                TempData["Message"] = "Ocorreu um erro ao validar os dados";
 
             Models.DeviceModel deviceModel = await _deviceModelService.GetDeviceModelById(id);
             if (deviceModel == null)
-                ViewData["Message"] = "O modelo do dispositivo não foi encontrado!";
+                TempData["Message"] = "O modelo do dispositivo não foi encontrado!";
                 
             Device.DeviceId = id;
             var result = await _service.UpdateDevice(Device);
 
             if (result.IsSuccessful)
-                ViewData["Message"] = "Dispositivo atualizado com sucesso";
+                TempData["Message"] = "Dispositivo atualizado com sucesso";
             else
-                ViewData["Message"] = result.Message;
+                TempData["Message"] = result.Message;
 
-            return RedirectToPage("Device", "Index");
+            return RedirectToPage("/Device/Index");
         }
     }
 }

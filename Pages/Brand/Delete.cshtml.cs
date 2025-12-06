@@ -13,7 +13,7 @@ namespace TechInventory.Pages.Brand
         {
             var result = await _service.DeleteBrand(id);
             if (!result.IsSuccessful)
-                ViewData["Message"] = result.Message;
+                TempData["Message"] = result.Message;
                 
             return RedirectToPage("/Brand/Index");
         }

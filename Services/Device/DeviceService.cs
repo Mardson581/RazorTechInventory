@@ -49,7 +49,7 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
 
     public Task<List<Models.Device>> GetAllDevices()
     {
-        return _repository.GetAllAsync();
+        return _repository.GetWhere(null, "Model");
     }
 
     public async Task<List<Models.Device>> GetAllDevicesWithStatus(DeviceStatus status)

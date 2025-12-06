@@ -28,6 +28,9 @@
                         <li class="nav-item"></li>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Brand/Index">Marcas</a>
                         </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/DeviceModel/Index">Modelos</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
@@ -40,7 +43,7 @@
         <main role="main" class="pb-3">
             @RenderBody()
 
-            @if (ViewData["Message"] != null)
+            @if (TempData["Message"] != null)
             {
                 <div class="container mt-5">
                     <!-- The Modal -->
@@ -48,11 +51,11 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="warningModalLabel">Erro ao cadastrar</h5>
+                                    <h5 class="modal-title" id="warningModalLabel">Aviso</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    @ViewData["Message"]
+                                    @TempData["Message"]
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fechar</button>
@@ -75,7 +78,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @if (ViewData["Message"] != null)
+    @if (TempData["Message"] != null)
     {
         <script>
             $(window).on('load', () => {

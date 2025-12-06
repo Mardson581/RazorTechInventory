@@ -28,7 +28,7 @@ namespace TechInventory.Pages.Brand
             if (result.IsSuccessful)
                 return RedirectToPage("./Index");
 
-            ViewData["Message"] = result.Message;
+            TempData["Message"] = result.Message;
             return RedirectToAction("Get");
         }
     }

@@ -1,0 +1,34 @@
+﻿@page
+@model TechInventory.Pages.DeviceModel.IndexModel
+@{
+    ViewData["Title"] = "Modelos";
+}
+
+<div class="container d-flex justify-content-between align-items-center mb-5 mt-4">
+    <h2>Modelos cadastrados</h2>
+    <a class="btn btn-primary" asp-page="Create">Cadastrar novo modelo</a>
+</div>
+
+@if (Model.DeviceModels.Count == 0)
+{
+    <p class="mb-5">Nenhuma marca cadastrada</p>
+}
+
+@foreach (var deviceModel in Model.DeviceModels)
+{
+    <div class="container">
+        <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex justify-content-between align-items-center mb-2 border border-secondary rounded">
+            <h4 style="margin: 0; padding: 0;">@deviceModel.Name (@deviceModel.Brand.Name)</h4>
+
+            <div class="d-flex">
+                <form class="me-2" method="post" asp-page="Delete" asp-route-id="@deviceModel.DeviceModelId">
+                    <input type="submit" value="Excluir" class="btn btn-danger">
+                </form>
+
+                <form method="get" asp-page="Edit" asp-route-id="@deviceModel.DeviceModelId">
+                    <input type="submit" value="Editar" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+}

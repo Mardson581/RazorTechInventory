@@ -18,7 +18,7 @@ namespace TechInventory.Pages.Brand
 
             if (Brand == null)
             {
-                ViewData["Message"] = "Nenhuma marca foi encontrada";
+                TempData["Message"] = "Nenhuma marca foi encontrada";
                 return RedirectToPage("/Brand/Index");
             }
 
@@ -37,7 +37,7 @@ namespace TechInventory.Pages.Brand
             if (result.IsSuccessful)
                 TempData["Message"] = "Marca atualizada com sucesso!";
             else
-                ViewData["Message"] = result.Message;
+                TempData["Message"] = result.Message;
             return RedirectToPage("/Brand/Index");
         }
     }

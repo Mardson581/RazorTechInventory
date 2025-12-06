@@ -18,18 +18,20 @@ namespace TechInventory.Pages.Device
         public async void OnGetAsync()
         {
             DeviceModels = await _deviceModelService.GetAllDeviceModels();
-            Page();
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
         {
             if (!ModelState.IsValid || NewDevice == null)
-                return RedirectToAction("Get");
+                TempData["Message"] = "Ocorreu um erro ao validar os dados";
 
             var result = await _service.AddDevice(NewDevice);
             if (result.IsSuccessful)
-                return RedirectToPage("./Index");
-            return Page();
+                TempData["Message"] = "Dispositivo adicionado com sucesso";
+            else
+                TempData["Message"] = result.Message;
+
+            return RedirectToPage("/Device/Index");
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿@page
+@model TechInventory.Pages.DeviceModel.CreateModel
+@{
+    ViewData["Title"] = "Cadastrar modelo";
+}
+
+<h2 class="mb-5">Cadastrar modelo de dispositivo</h2>
+
+<form method="post" asp-page-handler="Create">
+    <div class="form-group mb-3">
+        <label asp-for="NewDeviceModel.Name" class="mb-3">Modelo de dispositivo</label>
+        <input asp-for="NewDeviceModel.Name" class="form-control" />
+        <span asp-validation-for="NewDeviceModel.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="NewDeviceModel.BrandId" class="mb-3">Marca do modelo</label>
+        <select asp-for="NewDeviceModel.BrandId" class="form-control">
+            <option value="">--- Selecione uma marca ---</option>
+
+            @foreach (var brand in Model.Brands)
+            {
+                <option value="@brand.BrandId">@brand.Name</option>
+            }
+        </select>
+        <span asp-validation-for="NewDeviceModel.BrandId" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Cadastrar" />
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

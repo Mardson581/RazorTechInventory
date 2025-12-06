@@ -12,8 +12,8 @@ namespace TechInventory.Pages.Device
         {
             var result = await _service.DeleteDevice(id);
             if (!result.IsSuccessful)
-                ViewData["Message"] = result.Message;
-            return RedirectToPage("Device", "Index");
+                TempData["Message"] = result.Message;
+            return RedirectToPage("/Device/Index");
         }
     }
 }

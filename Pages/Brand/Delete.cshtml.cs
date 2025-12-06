@@ -12,7 +12,7 @@ namespace TechInventory.Pages.Brand
         public async Task<IActionResult> OnPostAsync(int id)
         {
             var result = await _service.DeleteBrand(id);
-            if (result.IsSuccessful)
+            if (!result.IsSuccessful)
                 ViewData["Message"] = result.Message;
                 
             return RedirectToPage("/Brand/Index");

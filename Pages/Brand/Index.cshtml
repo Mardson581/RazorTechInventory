@@ -4,13 +4,31 @@
     ViewData["Title"] = "Marcas";
 }
 
-<h2 class="mb-5">Marcas cadastradas</h2>
+<div class="container d-flex justify-content-between align-items-center mb-5 mt-4">
+    <h2>Marcas cadastradas</h2>
+    <a class="btn btn-primary" asp-page="Create">Cadastrar nova marca</a>
+</div>
+
+@if (Model.BrandList.Count == 0)
+{
+    <p class="mb-5">Nenhuma marca cadastrada</p>
+}
 
 @foreach (var brand in Model.BrandList)
 {
     <div class="container">
-        <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex flex-row mb-2 border border-secondary rounded">
-            <h4>@brand.Name</h4>
+        <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex justify-content-between align-items-center mb-2 border border-secondary rounded">
+            <h4 style="margin: 0; padding: 0;">@brand.Name</h4>
+
+            <div class="d-flex">
+                <form class="me-2" method="post" asp-page="Delete" asp-route-id="@brand.BrandId">
+                    <input type="submit" value="Excluir" class="btn btn-danger">
+                </form>
+
+                <form method="get" asp-page="Edit" asp-route-id="@brand.BrandId">
+                    <input type="submit" value="Editar" class="btn btn-primary">
+                </form>
+            </div>
         </div>
     </div>
 }

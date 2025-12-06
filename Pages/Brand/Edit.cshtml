@@ -1,0 +1,22 @@
+﻿@page "{id:int}"
+@model TechInventory.Pages.Brand.EditModel
+@{
+    ViewData["Title"] = "Editar Marca";
+}
+
+<h2 class="mb-5">Editar Marca</h2>
+
+<form method="post">
+
+    <div class="form-group mb-3">
+        <label asp-for="Brand.Name" class="mb-3">Nome da marca</label>
+        <input asp-for="Brand.Name" class="form-control" />
+        <span asp-validation-for="Brand.Name" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Salvar" />
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

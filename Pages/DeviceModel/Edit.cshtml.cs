@@ -32,7 +32,8 @@ namespace TechInventory.Pages.DeviceModel
         {
             if (!ModelState.IsValid)
                 return Page();
-            
+                //TempData["Message"] = "Os dados não eram válidos!";
+
             DeviceModel.DeviceModelId = id;
             var result = await _service.UpdateDeviceModel(DeviceModel);
             if (result.IsSuccessful)

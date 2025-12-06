@@ -27,5 +27,19 @@ namespace TechInventory.Pages.DeviceModel
             Brands = await _brandService.GetAllBrands();
             return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            if (!ModelState.IsValid)
+                return Page();
+            
+            DeviceModel.DeviceModelId = id;
+            var result = await _service.UpdateDeviceModel(DeviceModel);
+            if (result.IsSuccessful)
+                TempData["Message"] = "Modelo atualizado com sucesso!";
+            else
+                TempData["Message"] = result.Message;
+            return RedirectToPage("/DeviceModel/Index");
+        }
     }
 }

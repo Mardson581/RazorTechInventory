@@ -1,0 +1,16 @@
+﻿@page
+@model TechInventory.Pages.Brand.IndexModel
+@{
+    ViewData["Title"] = "Marcas";
+}
+
+<h2 class="mb-5">Marcas cadastradas</h2>
+
+@foreach (var brand in Model.BrandList)
+{
+    <div class="container">
+        <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex flex-row mb-2 border border-secondary rounded">
+            <h4>@brand.Name</h4>
+        </div>
+    </div>
+}

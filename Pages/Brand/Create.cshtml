@@ -1,0 +1,53 @@
+﻿@page
+@model TechInventory.Pages.Brand.CreateModel
+@{
+    ViewData["Title"] = "Cadastrar Marca";
+}
+
+<h2 class="mb-5">Cadastrar Marca</h2>
+
+<form method="post" asp-page-handler="Create">
+    <div class="form-group mb-3">
+        <label asp-for="NewBrand.Name" class="mb-3">Nome da marca</label>
+        <input asp-for="NewBrand.Name" class="form-control" />
+        <span asp-validation-for="NewBrand.Name" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Cadastrar" />
+</form>
+
+@if (Model.Message != null)
+{
+    <div class="container mt-5">
+        <!-- The Modal -->
+        <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="warningModalLabel">Erro ao cadastrar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @Model.Message
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (Model.Message != null)
+    {
+        <script>
+            $(window).on('load', () => {
+                $('#warningModal').modal('show');
+            })
+        </script>
+    }
+}

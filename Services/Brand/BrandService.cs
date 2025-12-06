@@ -20,6 +20,11 @@ public class BrandService(UnitOfWork unitOfWork) : IBrandService
         return _repository.GetAsync(id);
     }
 
+    public async Task<Models.Brand> GetBrandByName(string name)
+    {
+        return await _repository.FirstOrDefault(brand => brand.Name == name);
+    }
+
     public Task<List<Models.Brand>> GetAllBrands()
     {
         return _repository.GetAllAsync();

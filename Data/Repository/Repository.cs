@@ -69,4 +69,15 @@ public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T
 
         return await query.ToListAsync();
     }
+
+    public async Task<T?> FirstOrDefault(Expression<Func<T, bool>> filter, string[] includes = null)
+    {
+        IQueryable<T> query = _set;
+
+        if (includes != null)
+            foreach (string property in includes)
+                query = query.Include(property.Trim());
+                
+        return await _set.FirstOrDefaultAsync(filter);
+    }
 }

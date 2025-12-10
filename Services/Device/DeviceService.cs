@@ -8,9 +8,14 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
 {
     private readonly UnitOfWork _unitOfWork = unitOfWork;
     private readonly IRepository<Models.Device> _repository = unitOfWork.DeviceRepository;
+    private readonly IRepository<Models.DeviceModel> _modelRepository = unitOfWork.DeviceModelRepository;
 
     public async Task<Result<bool>> AddDevice(Models.Device device)
     {
+        var checkResult = await CheckIncludes(device);
+        if (!checkResult.IsSuccessful)
+            return checkResult;
+
         await _repository.CreateAsync(device);
         return await _unitOfWork.CommitAsync();
     }
@@ -32,6 +37,10 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
 
     public async Task<Result<bool>> UpdateDevice(Models.Device device)
     {
+        var checkResult = await CheckIncludes(device);
+        if (!checkResult.IsSuccessful)
+            return checkResult;
+            
         _repository.Update(device);
         return await _unitOfWork.CommitAsync();
     }
@@ -63,5 +72,16 @@ public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
             d => d.Model.BrandId == brand.BrandId,
             "Model"
         );
+    }
+
+    public async Task<Result<bool>> CheckIncludes(Models.Device device)
+    {
+        // Check if the device's model exists
+        var result = await _modelRepository.GetAsync(device.DeviceModelId);
+
+        if (result == null)
+            return Result<bool>.Failure($"Modelo com Id {device.DeviceModelId} não foi encontrado", false);
+
+        return Result<bool>.Success(true);
     }
 }

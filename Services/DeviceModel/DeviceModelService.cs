@@ -8,9 +8,14 @@ public class DeviceModelService(UnitOfWork unitOfWork) : IDeviceModelService
 {
     private readonly UnitOfWork _unitOfWork = unitOfWork;
     private readonly IRepository<Models.DeviceModel> _repository = unitOfWork.DeviceModelRepository;
+    private readonly IRepository<Models.Brand> _brandRepository = unitOfWork.BrandRepository;
 
     public async Task<Result<bool>> CreateDeviceModel(Models.DeviceModel deviceModel)
     {
+        var checkResult = await CheckIncludes(deviceModel);
+        if (!checkResult.IsSuccessful)
+            return checkResult;
+            
         await _repository.CreateAsync(deviceModel);
         return await _unitOfWork.CommitAsync();
     }
@@ -27,6 +32,10 @@ public class DeviceModelService(UnitOfWork unitOfWork) : IDeviceModelService
 
     public async Task<Result<bool>> UpdateDeviceModel(Models.DeviceModel deviceModel)
     {
+        var checkResult = await CheckIncludes(deviceModel);
+        if (!checkResult.IsSuccessful)
+            return checkResult;
+
         _repository.Update(deviceModel);
         return await _unitOfWork.CommitAsync();
     }
@@ -40,5 +49,14 @@ public class DeviceModelService(UnitOfWork unitOfWork) : IDeviceModelService
     public async Task<List<Models.DeviceModel>> GetDeviceModelsByBrandId(int brandId)
     {
         return await _repository.GetWhere(m => m.BrandId == brandId);
+    }
+
+    public async Task<Result<bool>> CheckIncludes(Models.DeviceModel deviceModel)
+    {
+        var brand = await _brandRepository.GetAsync(deviceModel.BrandId);
+
+        if (brand == null) 
+            return Result<bool>.Failure($"A marca com id {deviceModel.BrandId} não existe", false);
+        return Result<bool>.Success(true);
     }
 }

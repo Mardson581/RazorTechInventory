@@ -13,6 +13,8 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger)
     private IRepository<Device> deviceRepository;
     private IRepository<DeviceModel> deviceModelRepository;
     private IRepository<Brand> brandRepository;
+    private IRepository<MaintenanceRecord> maintenanceRecordRepository;
+
 
     public IRepository<Device> DeviceRepository
     {
@@ -41,6 +43,16 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger)
             if (brandRepository == null)
                 brandRepository = new Repository<Brand>(_context);
             return brandRepository;
+        }
+    }
+
+    public IRepository<MaintenanceRecord> MaintenanceRecordRepository
+    {
+        get
+        {
+            if (maintenanceRecordRepository == null)
+                maintenanceRecordRepository = new Repository<MaintenanceRecord>(_context);
+            return maintenanceRecordRepository;
         }
     }
 

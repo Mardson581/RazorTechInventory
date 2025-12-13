@@ -7,8 +7,8 @@ namespace TechInventory.Services;
 public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecordService
 {
     private readonly UnitOfWork _unitOfWork = unitOfWork;
-    private readonly IRepository<MaintenanceRecord> _repository = _unitOfWork.BrandRepository;
-    private readonly IRepository<Models.Device> _deviceRepository = _unitOfWork.DeviceRepository;
+    private readonly IRepository<MaintenanceRecord> _repository = unitOfWork.MaintenanceRecordRepository;
+    private readonly IRepository<Models.Device> _deviceRepository = unitOfWork.DeviceRepository;
 
     public async Task<Result<bool>> CreateRecord(MaintenanceRecord record)
     {
@@ -43,11 +43,21 @@ public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecor
         return await _unitOfWork.CommitAsync();
     }
 
-    /* --- TODO ---
-    public Task<MaintenanceRecord> GetRecordById(int id);
-    public Task<List<MaintenanceRecord>> GetAllRecords();
-    public Task<List<MaintenanceRecord>> GetAllRecordsByDevice(Models.Device device);*/
-    
+    public async Task<MaintenanceRecord> GetRecordById(int id)
+    {
+        return await _repository.GetAsync(id);
+    }
+
+    public async Task<List<MaintenanceRecord>> GetAllRecords()
+    {
+        return await _repository.GetAllAsync();
+    }
+
+    public async Task<List<MaintenanceRecord>> GetAllRecordsByDevice(Models.Device device)
+    {
+        return await _repository.GetWhere(record => record.DeviceId == device.DeviceId);
+    }
+
     public async Task<Result<bool>> CheckIncludes(MaintenanceRecord record)
     {
         var device = await _deviceRepository.GetAsync(record.DeviceId);

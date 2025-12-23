@@ -2,7 +2,7 @@ using TechInventory.Models;
 using TechInventory.Data.UnitOfWork;
 using TechInventory.Data.Repository;
 
-namespace TechInventory.Services;
+namespace TechInventory.Services.Maintenance;
 
 public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecordService
 {

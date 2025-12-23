@@ -1,6 +1,7 @@
 using TechInventory.Services.Device;
 using TechInventory.Services.DeviceModel;
 using TechInventory.Services.Brand;
+using TechInventory.Services.Maintenance;
 using TechInventory.Data.UnitOfWork;
 using TechInventory.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IMaintenanceRecordService, MaintenanceRecordService>();
 
 var app = builder.Build();
 

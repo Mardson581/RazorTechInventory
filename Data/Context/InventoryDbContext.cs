@@ -8,6 +8,8 @@ public class InventoryDbContext : DbContext
     public DbSet<Device> Devices;
     public DbSet<Brand> Brands;
     public DbSet<DeviceModel> DeviceModels;
+    public DbSet<MaintenanceRecord> MaintenanceRecords;
+
 
     public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
         : base(options) { }

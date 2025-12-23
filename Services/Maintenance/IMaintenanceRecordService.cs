@@ -1,6 +1,6 @@
 using TechInventory.Models;
 
-namespace TechInventory.Services;
+namespace TechInventory.Services.Maintenance;
 
 public interface IMaintenanceRecordService
 {

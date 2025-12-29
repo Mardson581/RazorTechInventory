@@ -1,7 +1,7 @@
 ﻿@page "{id:int}"
 @model TechInventory.Pages.Maintenance.EditModel
 @{
-    ViewData["Title"] = "Cadastrar Manutenção";
+    ViewData["Title"] = "Editar Manutenção";
 }
 
 <h2 class="mb-5">Editar Manutenção</h2>
@@ -10,7 +10,7 @@
     <div class="form-group mb-3">
         <label asp-for="Record.DeviceId" class="mb-3">Dispositivo</label>
         <select asp-for="Record.DeviceId" class="form-control">
-            <option value="@Record.DeviceId">@Record.Device.Name</option>
+            <option value="@Model.Record.DeviceId">@Model.Record.Device.Name</option>
 
             @foreach (var device in Model.Devices)
             {
@@ -23,7 +23,7 @@
     <div class="form-group mb-3">
         <label asp-for="Record.Description" class="mb-3">Descrição</label>
         <textarea asp-for="Record.Description" class="form-control" rows="3" cols="50">
-            @Record.Description
+            @Model.Record.Description
         </textarea>
         <span asp-validation-for="Record.Description" class="text-danger"></span>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="form-group mb-3">
         <label asp-for="Record.Technician" class="mb-3">Técnico Responsável</label>
-        <input asp-for="Record.Technician" class="form-control" value="@Record.Technician" />
+        <input asp-for="Record.Technician" class="form-control" value="@Model.Record.Technician" />
         <span asp-validation-for="Record.Technician" class="text-danger"></span>
     </div>
 

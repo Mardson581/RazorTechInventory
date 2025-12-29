@@ -12,7 +12,7 @@ namespace TechInventory.Pages.Maintenance
 
         public async void OnGetAsync()
         {
-            Records = await _service.GetAllRecords();
+            Records = await _service.GetAllRecordsWithDevices();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace TechInventory.Pages.Maintenance
             else
                 TempData["Message"] = result.Message;
 
-            return RedirectToPage("/");
+            return RedirectToPage("/Maintenance/Index");
         }
     }
 }

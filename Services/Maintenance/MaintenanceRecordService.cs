@@ -56,6 +56,11 @@ public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecor
         return await _repository.GetAllAsync();
     }
 
+    public async Task<List<MaintenanceRecord>> GetAllRecordsWithDevices()
+    {
+        return await _repository.GetWhere(null, "Device");
+    }
+
     public async Task<List<MaintenanceRecord>> GetAllRecordsByDevice(Models.Device device)
     {
         return await _repository.GetWhere(record => record.DeviceId == device.DeviceId);

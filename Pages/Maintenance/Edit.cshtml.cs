@@ -34,7 +34,7 @@ namespace TechInventory.Pages.Maintenance
             if (!ModelState.IsValid)
             {
                 TempData["Message"] = "Os dados não eram válidos!";
-                return Page();
+                return RedirectToPage("/Maintenance/Index");
             }
 
             Record.MaintenanceRecordId = id;

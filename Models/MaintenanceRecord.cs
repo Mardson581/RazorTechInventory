@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TechInventory.Models;
 
@@ -9,6 +10,8 @@ public class MaintenanceRecord
 
     [Required(ErrorMessage="O registro de manutenção deve ter um dispositivo associado")]
     public int DeviceId { get; set; }
+
+    [MaybeNull]
     public Device Device { get; set; }
 
     [Required(ErrorMessage="O registro de manutenção deve ter uma data")]

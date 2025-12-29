@@ -6,7 +6,7 @@
 
 <div class="container d-flex justify-content-between align-items-center mb-5 mt-4">
     <h2>Histórico de manutenções</h2>
-    <a class="btn btn-primary" asp-page="Create">Cadastrar nova marca</a>
+    <a class="btn btn-primary" asp-page="Create">Cadastrar nova manutenção</a>
 </div>
 
 @if (Model.Records.Count == 0)
@@ -14,19 +14,19 @@
     <p class="mb-5">Nenhuma manutenção cadastrada</p>
 }
 
-@foreach (var record in Model.Records)
+@foreach (var mrecord in Model.Records)
 {
     <div class="container">
         <div style="width: 60rem; padding: 10px 20px 10px 20px;" class="d-flex justify-content-between align-items-center mb-2 border border-secondary rounded">
-            <h4 style="margin: 0; padding: 0;">@record.Device.Name</h4>
-            <p>@record.Description - @record.Data<br>por @record.Technician</p>
+            <h4 style="margin: 0; padding: 0;">@mrecord.Device.Name</h4>
+            <p>@mrecord.Description - @mrecord.Data<br>por @mrecord.Technician</p>
 
             <div class="d-flex">
-                <form class="me-2" method="post" asp-page="Delete" asp-route-id="@record.MaintenanceRecordId">
+                <form class="me-2" method="post" asp-page="Delete" asp-route-id="@mrecord.MaintenanceRecordId">
                     <input type="submit" value="Excluir" class="btn btn-danger">
                 </form>
 
-                <form method="get" asp-page="Edit" asp-route-id="@record.MaintenanceRecordId">
+                <form method="get" asp-page="Edit" asp-route-id="@mrecord.MaintenanceRecordId">
                     <input type="submit" value="Editar" class="btn btn-primary">
                 </form>
             </div>

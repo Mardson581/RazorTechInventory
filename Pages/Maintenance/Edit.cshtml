@@ -1,16 +1,16 @@
-﻿@page
-@model TechInventory.Pages.Maintenance.CreateModel
+﻿@page "{id:int}"
+@model TechInventory.Pages.Maintenance.EditModel
 @{
     ViewData["Title"] = "Cadastrar Manutenção";
 }
 
-<h2 class="mb-5">Cadastrar Manutenção</h2>
+<h2 class="mb-5">Editar Manutenção</h2>
 
-<form method="post" asp-page-handler="Create">
+<form method="post">
     <div class="form-group mb-3">
         <label asp-for="Record.DeviceId" class="mb-3">Dispositivo</label>
         <select asp-for="Record.DeviceId" class="form-control">
-            <option value="">--- Selecione um dispositivo ---</option>
+            <option value="@Record.DeviceId">@Record.Device.Name</option>
 
             @foreach (var device in Model.Devices)
             {
@@ -22,7 +22,9 @@
 
     <div class="form-group mb-3">
         <label asp-for="Record.Description" class="mb-3">Descrição</label>
-        <textarea asp-for="Record.Description" class="form-control" rows="3" cols="50"></textarea>
+        <textarea asp-for="Record.Description" class="form-control" rows="3" cols="50">
+            @Record.Description
+        </textarea>
         <span asp-validation-for="Record.Description" class="text-danger"></span>
     </div>
 
@@ -34,11 +36,11 @@
 
     <div class="form-group mb-3">
         <label asp-for="Record.Technician" class="mb-3">Técnico Responsável</label>
-        <input asp-for="Record.Technician" class="form-control" />
+        <input asp-for="Record.Technician" class="form-control" value="@Record.Technician" />
         <span asp-validation-for="Record.Technician" class="text-danger"></span>
     </div>
 
-    <input type="submit" class="btn btn-primary" value="Cadastrar" />
+    <input type="submit" class="btn btn-primary" value="Editar" />
 </form>
 
 @section Scripts {

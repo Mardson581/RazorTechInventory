@@ -1,5 +1,4 @@
 using TechInventory.Services.Brand;
-using TechInventory.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

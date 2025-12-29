@@ -45,7 +45,10 @@ public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecor
 
     public async Task<MaintenanceRecord> GetRecordById(int id)
     {
-        return await _repository.GetAsync(id);
+        return await _repository.FirstOrDefault(
+            r => r.MaintenanceRecordId == id,
+            new string[]{"Device"}
+        );
     }
 
     public async Task<List<MaintenanceRecord>> GetAllRecords()

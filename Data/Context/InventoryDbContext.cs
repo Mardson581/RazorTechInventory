@@ -5,10 +5,10 @@ namespace TechInventory.Data.Context;
 
 public class InventoryDbContext : DbContext
 {
-    public DbSet<Device> Devices;
-    public DbSet<Brand> Brands;
-    public DbSet<DeviceModel> DeviceModels;
-    public DbSet<MaintenanceRecord> MaintenanceRecords;
+    public DbSet<Device> Devices { get; set; }
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<DeviceModel> DeviceModels { get; set; }
+    public DbSet<MaintenanceRecord> MaintenanceRecords { get; set; }
 
 
     public InventoryDbContext(DbContextOptions<InventoryDbContext> options)

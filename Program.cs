@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<InventoryDbContext>(options =>
-    options.UseInMemoryDatabase("TestDatabase"));
+    options.UseSqlServer(Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING")));
 
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();

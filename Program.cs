@@ -19,7 +19,6 @@ builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IMaintenanceRecordService, MaintenanceRecordService>();
-builder.Services.AddScoped<IConfigurationManager, ConfigurationManager>();
 
 var app = builder.Build();
 

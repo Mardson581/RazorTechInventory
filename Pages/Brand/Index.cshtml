@@ -9,7 +9,7 @@
     <a class="btn btn-primary" asp-page="Create">Cadastrar nova marca</a>
 </div>
 
-@if (Model.BrandList.Count == 0)
+@if (!Model.BrandList.Any())
 {
     <p class="mb-5">Nenhuma marca cadastrada</p>
 }

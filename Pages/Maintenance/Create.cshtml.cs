@@ -14,7 +14,7 @@ namespace TechInventory.Pages.Maintenance
         [BindProperty]
         public MaintenanceRecord Record { get; set; } = default!;
 
-        public List<Models.Device> Devices { get; set; } = default!;
+        public List<Models.Device> Devices { get; set; } = [];
 
         public async void OnGetAsync()
         {

@@ -7,7 +7,7 @@ namespace TechInventory.Pages.DeviceModel
     public class IndexModel(IDeviceModelService service) : PageModel
     {
         private readonly IDeviceModelService _service = service;
-        public List<Models.DeviceModel> DeviceModels { get; set; } = default!;
+        public List<Models.DeviceModel> DeviceModels { get; set; } = [];
 
         public async void OnGetAsync()
         {

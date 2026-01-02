@@ -13,7 +13,7 @@ namespace TechInventory.Pages.Device
         [BindProperty]
         public Models.Device Device { get; set; } = default!;
 
-        public List<Models.DeviceModel> DeviceModels { get; set; } = default!;
+        public List<Models.DeviceModel> DeviceModels { get; set; } = [];
 
         public async Task<IActionResult> OnGetAsync(int id)
         {

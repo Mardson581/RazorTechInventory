@@ -8,11 +8,9 @@ namespace TechInventory.Pages.Brand
     public class CreateModel(IBrandService service) : PageModel
     {
         private readonly IBrandService _service = service;
-        public List<Models.Brand> BrandsList { get; set; } = default!;
 
         [BindProperty]
         public Models.Brand NewBrand { get; set; } = default!;
-        public string Message { get; set; } = default!;
 
         public void OnGet()
         {

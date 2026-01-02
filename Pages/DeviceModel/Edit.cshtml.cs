@@ -10,7 +10,7 @@ namespace TechInventory.Pages.DeviceModel
     {
         private readonly IDeviceModelService _service = service;
         private readonly IBrandService _brandService = brandService;
-        public List<Models.Brand> Brands { get; set; } = default!;
+        public List<Models.Brand> Brands { get; set; } = [];
 
         [BindProperty]
         public Models.DeviceModel DeviceModel { get; set; } = default!;

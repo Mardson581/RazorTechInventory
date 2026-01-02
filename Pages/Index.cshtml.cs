@@ -9,7 +9,7 @@ public class IndexModel : PageModel
     private readonly ILogger<IndexModel> _logger;
     private readonly IConfigurationManager config;
 
-    public IndexModel(ILogger<IndexModel> logger, ConfigurationManager config)
+    public IndexModel(ILogger<IndexModel> logger, IConfigurationManager config)
     {
         _logger = logger;
         this.config = config;

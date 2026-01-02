@@ -8,7 +8,7 @@ namespace TechInventory.Pages.Maintenance
     public class IndexModel(IMaintenanceRecordService service) : PageModel
     {
         private readonly IMaintenanceRecordService _service = service;
-        public List<MaintenanceRecord> Records { get; set; }
+        public List<MaintenanceRecord> Records { get; set; } = []
 
         public async void OnGetAsync()
         {

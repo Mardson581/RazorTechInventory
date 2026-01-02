@@ -6,7 +6,6 @@ namespace TechInventory.Pages;
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    private readonly IConfigurationManager config;
 
     public IndexModel(ILogger<IndexModel> logger)
     {

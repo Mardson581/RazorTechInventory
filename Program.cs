@@ -14,7 +14,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"),
-        sqlOptions => sqlOptions.EnableRetryOnFailure()
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+        )
     ));
 
 builder.Services.AddScoped<UnitOfWork>();

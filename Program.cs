@@ -16,7 +16,7 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
         builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"),
         sqlOptions => sqlOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(30),
+            maxRetryDelay: TimeSpan.FromSeconds(60),
             errorNumbersToAdd: null
         )
     ));

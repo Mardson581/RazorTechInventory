@@ -12,14 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<InventoryDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"),
-        sqlOptions => sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(60),
-            errorNumbersToAdd: null
-        )
-    ));
+    options.UseMySQL(builder.Configuration.GetConnectionString("STRING_DE_CONEXÃO_VEM_AQUI")));
 
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();

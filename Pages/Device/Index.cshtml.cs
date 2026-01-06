@@ -10,7 +10,14 @@ namespace TechInventory.Pages.Device
 
         public async void OnGet()
         {
-            Devices = await _service.GetAllDevices();
+            try
+            {
+                Devices = await _service.GetAllDevices();
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = ex.Message;
+            }
         }
     }
 }

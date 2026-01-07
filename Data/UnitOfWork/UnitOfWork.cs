@@ -72,6 +72,8 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
 
     public void Dispose()
     {
-        _context.Dispose();
+        // The DI container is responsible for disposing the DbContext.
+        // We leave this method here to fulfill the IDisposable contract,
+        // but the DbContext should not be disposed here.
     }
 }

@@ -13,7 +13,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<InventoryDbContext>(options =>
     //options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
-    options.UseInMemoryDatabase("TechInventoryDB");
+    options.UseInMemoryDatabase("TechInventoryDB")
 );
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

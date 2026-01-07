@@ -7,7 +7,7 @@ namespace TechInventory.Data.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly InventoryDbContext _context = context;
+    private readonly InventoryDbContext _context;
     
     public UnitOfWork(InventoryDbContext context)
     {

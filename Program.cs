@@ -12,8 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<InventoryDbContext>(options =>
-    //options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
-    options.UseInMemoryDatabase("TechInventoryDB")
+    options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
 );
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

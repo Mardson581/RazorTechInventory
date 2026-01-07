@@ -70,10 +70,22 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
         }
     }
 
+    private bool disposed = false;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this.disposed)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+        }
+        this.disposed = true;
+    }
+
     public void Dispose()
     {
-        // The DI container is responsible for disposing the DbContext.
-        // We leave this method here to fulfill the IDisposable contract,
-        // but the DbContext should not be disposed here.
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
-}

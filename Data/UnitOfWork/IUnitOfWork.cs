@@ -3,7 +3,7 @@ using TechInventory.Models;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     IRepository<Brand> BrandRepository { get; }
     IRepository<Device> DeviceRepository { get; }

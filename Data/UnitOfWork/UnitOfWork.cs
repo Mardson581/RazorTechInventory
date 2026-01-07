@@ -69,24 +69,4 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
             return Result<bool>.Failure("Não foi possível salvar as informações (erro interno)", false);
         }
     }
-
-    private bool disposed = false;
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!this.disposed)
-        {
-            if (disposing)
-            {
-                context.Dispose();
-            }
-        }
-        this.disposed = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 }

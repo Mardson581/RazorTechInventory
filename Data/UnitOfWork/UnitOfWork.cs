@@ -89,3 +89,4 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+}

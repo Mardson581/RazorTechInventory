@@ -4,9 +4,9 @@ using TechInventory.Models;
 
 namespace TechInventory.Services.DeviceModel;
 
-public class DeviceModelService(UnitOfWork unitOfWork) : IDeviceModelService
+public class DeviceModelService(IUnitOfWork unitOfWork) : IDeviceModelService
 {
-    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRepository<Models.DeviceModel> _repository = unitOfWork.DeviceModelRepository;
     private readonly IRepository<Models.Brand> _brandRepository = unitOfWork.BrandRepository;
 

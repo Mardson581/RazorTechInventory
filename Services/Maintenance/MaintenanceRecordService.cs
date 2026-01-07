@@ -4,9 +4,9 @@ using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Maintenance;
 
-public class MaintenanceRecordService(UnitOfWork unitOfWork) : IMaintenanceRecordService
+public class MaintenanceRecordService(IUnitOfWork unitOfWork) : IMaintenanceRecordService
 {
-    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRepository<MaintenanceRecord> _repository = unitOfWork.MaintenanceRecordRepository;
     private readonly IRepository<Models.Device> _deviceRepository = unitOfWork.DeviceRepository;
 

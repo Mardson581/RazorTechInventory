@@ -4,9 +4,9 @@ using TechInventory.Data.UnitOfWork;
 
 namespace TechInventory.Services.Device;
 
-public class DeviceService(UnitOfWork unitOfWork) : IDeviceService
+public class DeviceService(IUnitOfWork unitOfWork) : IDeviceService
 {
-    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRepository<Models.Device> _repository = unitOfWork.DeviceRepository;
     private readonly IRepository<Models.DeviceModel> _modelRepository = unitOfWork.DeviceModelRepository;
 

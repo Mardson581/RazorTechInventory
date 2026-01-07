@@ -5,10 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) : IUnitOfWork, IDisposable
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly InventoryDbContext _context = context;
-    private readonly ILogger<UnitOfWork> _logger = logger;
+    
+    public UnitOfWork(InventoryDbContext context)
+    {
+        _context = context;
+    }
 
     private IRepository<Device> deviceRepository;
     private IRepository<DeviceModel> deviceModelRepository;
@@ -65,8 +69,7 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
         }
         catch (DbUpdateException ex)
         {
-            _logger.LogError(ex, "UnitOfWork::Commit falhou");
-            return Result<bool>.Failure("Não foi possível salvar as informações (erro interno)", false);
+            return Result<bool>.Failure($"Não foi possível salvar as informações {ex.Message}", false);
         }
     }
 

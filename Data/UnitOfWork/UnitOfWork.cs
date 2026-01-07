@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) : IUnitOfWork
+public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) : IUnitOfWork, IDisposable
 {
     private readonly InventoryDbContext _context = context;
     private readonly ILogger<UnitOfWork> _logger = logger;
@@ -68,5 +68,21 @@ public class UnitOfWork(InventoryDbContext context, ILogger<UnitOfWork> logger) 
             _logger.LogError(ex, "UnitOfWork::Commit falhou");
             return Result<bool>.Failure("Não foi possível salvar as informações (erro interno)", false);
         }
+    }
+
+    private bool disposed = false;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this.disposed)
+            if (disposing)
+                _context.Dispose();
+        this.disposed = true;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

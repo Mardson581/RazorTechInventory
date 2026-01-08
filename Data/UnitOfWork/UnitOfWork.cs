@@ -7,12 +7,7 @@ namespace TechInventory.Data.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly InventoryDbContext _context;
-    
-    public UnitOfWork(InventoryDbContext context)
-    {
-        _context = context;
-    }
+    private readonly InventoryDbContext _context = new InventoryDbContext();
 
     private IRepository<Device> deviceRepository;
     private IRepository<DeviceModel> deviceModelRepository;

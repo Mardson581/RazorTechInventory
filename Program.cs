@@ -11,11 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContextPool<InventoryDbContext>(options =>
+builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
 );
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IBrandService, BrandService>();

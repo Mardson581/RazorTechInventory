@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork(InventoryDbContext context) : IUnitOfWork, IDisposable
 {
-    private readonly InventoryDbContext _context = new InventoryDbContext();
+    private readonly InventoryDbContext _context = context;
 
     private IRepository<Device> deviceRepository;
     private IRepository<DeviceModel> deviceModelRepository;

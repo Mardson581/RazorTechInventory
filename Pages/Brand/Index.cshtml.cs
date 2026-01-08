@@ -8,7 +8,7 @@ namespace TechInventory.Pages.Brand
     public class IndexModel(IBrandService service) : PageModel
     {
         private readonly IBrandService _service = service;
-        public IList<Models.Brand> BrandList { get; set; } = new List<Models.Brand>();
+        public IList<Models.Brand> BrandList { get; set; } = [];
 
         public async Task OnGetAsync()
         {

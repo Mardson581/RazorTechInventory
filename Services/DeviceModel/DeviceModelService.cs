@@ -4,12 +4,13 @@ using TechInventory.Models;
 
 namespace TechInventory.Services.DeviceModel;
 
-public class DeviceModelService : IDeviceModelService
+public class DeviceModelService : IDeviceModelService, IDisposable
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<Models.DeviceModel> _deviceModelRepository;
     private readonly IRepository<Models.Brand> _brandRepository;
-
+    private bool _disposed = false;
+    
     public DeviceModelService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = (UnitOfWork)unitOfWork;
@@ -47,10 +48,17 @@ public class DeviceModelService : IDeviceModelService
         return await _unitOfWork.CommitAsync();
     }
 
-    public Task<Result<bool>> DeleteDeviceModel(int id)
+    public async Task<Result<bool>> DeleteDeviceModel(int id)
     {
-        _deviceModelRepository.DeleteAsync(id);
-        return _unitOfWork.CommitAsync();
+        var model = await _deviceModelRepository.GetAsync(id);
+        if (model is null)
+            return Result<bool>.Failure($"Modelo de dispositivo com Id {id} não foi encontrado", false);
+
+        var deleteResult = await _deviceModelRepository.DeleteAsync(id);
+        if (!deleteResult.IsSuccessful)
+            return Result<bool>.Failure(deleteResult.Message, false);
+
+        return await _unitOfWork.CommitAsync();
     }
 
     public async Task<List<Models.DeviceModel>> GetDeviceModelsByBrandId(int brandId)
@@ -65,5 +73,25 @@ public class DeviceModelService : IDeviceModelService
         if (brand == null) 
             return Result<bool>.Failure($"A marca com id {deviceModel.BrandId} não existe", false);
         return Result<bool>.Success(true);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Nothing to dispose here as per the request.
+                // _unitOfWork is managed by DI container.
+            }
+
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

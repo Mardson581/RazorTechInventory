@@ -4,11 +4,12 @@ using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Brand;
 
-public class BrandService : IBrandService
+public class BrandService : IBrandService, IDisposable
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<Models.Brand> _repository;
-
+    private bool _disposed = false;
+    
     public BrandService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = (UnitOfWork)unitOfWork;
@@ -44,7 +45,33 @@ public class BrandService : IBrandService
     
     public async Task<Result<bool>> DeleteBrand(int id)
     {
-        await _repository.DeleteAsync(id);
+        var brand = await _repository.GetAsync(id);
+        if (brand == null)
+            return Result<bool>.Failure($"Marca com Id {id} não foi encontrada.", false);
+
+        var deleteResult = await _repository.DeleteAsync(id);
+        if (!deleteResult.IsSuccessful)
+            return Result<bool>.Failure(deleteResult.Message, false);
+
         return await _unitOfWork.CommitAsync();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Nothing to dispose here as per the request.
+                // _unitOfWork is managed by DI container.
+            }
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

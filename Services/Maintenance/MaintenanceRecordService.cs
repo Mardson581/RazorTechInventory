@@ -4,11 +4,12 @@ using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Maintenance;
 
-public class MaintenanceRecordService : IMaintenanceRecordService
+public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<MaintenanceRecord> _repository;
     private readonly IRepository<Models.Device> _deviceRepository; // This is correct
+    private bool _disposed = false;
 
     public MaintenanceRecordService(IUnitOfWork unitOfWork)
     {
@@ -39,9 +40,9 @@ public class MaintenanceRecordService : IMaintenanceRecordService
 
     public async Task<Result<bool>> DeleteRecord(int id)
     {
-        var device = await _repository.GetAsync(id);
-        if (device == null)
-            return Result<bool>.Failure($"O dispositivo com Id {id} não foi encontrado", false);
+        var record = await _repository.GetAsync(id);
+        if (record == null)
+            return Result<bool>.Failure($"O registro de manutenção com Id {id} não foi encontrado", false);
 
         var deleteResult = await _repository.DeleteAsync(id);
         if (!deleteResult.IsSuccessful)
@@ -79,5 +80,25 @@ public class MaintenanceRecordService : IMaintenanceRecordService
         if (device == null)
             return Result<bool>.Failure("O dispositivo associado ao registro não existe", false);
         return Result<bool>.Success(true);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Nothing to dispose here as per the request.
+                // _unitOfWork is managed by DI container.
+            }
+
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

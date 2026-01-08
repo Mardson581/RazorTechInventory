@@ -4,11 +4,12 @@ using TechInventory.Data.UnitOfWork;
 
 namespace TechInventory.Services.Device;
 
-public class DeviceService : IDeviceService
+public class DeviceService : IDeviceService, IDisposable
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<Models.Device> _repository;
     private readonly IRepository<Models.DeviceModel> _deviceModelRepository;
+    private bool _disposed = false;
 
     public DeviceService(IUnitOfWork unitOfWork)
     {
@@ -90,5 +91,25 @@ public class DeviceService : IDeviceService
             return Result<bool>.Failure($"Modelo com Id {device.DeviceModelId} não foi encontrado", false);
 
         return Result<bool>.Success(true);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Nothing to dispose here as per the request.
+                // _unitOfWork is managed by DI container.
+            }
+
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

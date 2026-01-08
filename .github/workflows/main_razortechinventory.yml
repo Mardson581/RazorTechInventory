@@ -52,4 +52,4 @@ jobs:
           app-name: 'RazorTechInventory'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9E2E9C42F4AC46FC98ECECA4E75F6761 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2932F96DEFD4040A5E273E73CA770AF }}

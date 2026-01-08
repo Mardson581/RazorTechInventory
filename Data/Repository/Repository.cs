@@ -5,11 +5,12 @@ using System.Linq.Expressions;
 
 namespace TechInventory.Data.Repository;
 
-public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T : class
+public class Repository<T>(InventoryDbContext context) : IRepository<T>, IDisposable where T : class
 {
     private readonly InventoryDbContext _context = context;
     private readonly DbSet<T> _set = context.Set<T>();
-
+    private bool _disposed = false;
+    
     public async Task<Result<T>> CreateAsync(T Entity)
     {
         await _set.AddAsync(Entity);
@@ -43,7 +44,7 @@ public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T
 
     public async Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string[] includes = null)
     {
-        IQueryable<T> query = _set;
+        IQueryable<T> query = _set.AsNoTracking();
 
         if (filter != null)
             query = _set.Where(filter);
@@ -59,25 +60,40 @@ public class Repository<T>(InventoryDbContext context)  : IRepository<T> where T
 
     public async Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string includes)
     {
-        IQueryable<T> query = _set;
-
-        if (filter != null)
-            query = _set.Where(filter);
-        
-        if (includes != null)
-            query = query.Include(includes.Trim());
-
-        return await query.ToListAsync();
+        return await GetWhere(filter, new[] { includes });
     }
 
     public async Task<T?> FirstOrDefault(Expression<Func<T, bool>> filter, string[] includes = null)
     {
-        IQueryable<T> query = _set;
+        IQueryable<T> query = _set.AsNoTracking();
 
         if (includes != null)
+        {
             foreach (string property in includes)
+            {
                 query = query.Include(property.Trim());
+            }
+        }
                 
-        return await _set.FirstOrDefaultAsync(filter);
+        return await query.FirstOrDefaultAsync(filter);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // The context is managed by the UnitOfWork, which is managed by the DI container.
+                // So, we don't dispose it here.
+            }
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

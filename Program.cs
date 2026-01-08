@@ -16,10 +16,10 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
 );
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IDeviceService, DeviceService>();
-builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
-builder.Services.AddScoped<IBrandService, BrandService>();
-builder.Services.AddScoped<IMaintenanceRecordService, MaintenanceRecordService>();
+builder.Services.AddTransient<IDeviceService, DeviceService>();
+builder.Services.AddTransient<IDeviceModelService, DeviceModelService>();
+builder.Services.AddTransient<IBrandService, BrandService>();
+builder.Services.AddTransient<IMaintenanceRecordService, MaintenanceRecordService>();
 
 var app = builder.Build();
 

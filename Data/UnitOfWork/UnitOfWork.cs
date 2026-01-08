@@ -74,6 +74,7 @@ public class UnitOfWork(InventoryDbContext context) : IUnitOfWork, IDisposable
         if (disposed)
             return;
         disposed = true;
+        _context.Dispose();
         GC.SuppressFinalize(this);
     }
 }

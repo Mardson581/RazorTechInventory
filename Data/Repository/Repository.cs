@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace TechInventory.Data.Repository;
 
-public class Repository<T>(InventoryDbContext context) : IRepository<T>, IDisposable where T : class
+public class Repository<T>(InventoryDbContext context) : IRepository<T> where T : class
 {
     private readonly InventoryDbContext _context = context;
     private readonly DbSet<T> _set = context.Set<T>();
@@ -76,24 +76,5 @@ public class Repository<T>(InventoryDbContext context) : IRepository<T>, IDispos
         }
                 
         return await query.FirstOrDefaultAsync(filter);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                // The context is managed by the UnitOfWork, which is managed by the DI container.
-                // So, we don't dispose it here.
-            }
-            _disposed = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
     }
 }

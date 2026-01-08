@@ -1,14 +1,22 @@
 using TechInventory.Models;
 using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Maintenance;
 
-public class MaintenanceRecordService(IUnitOfWork unitOfWork) : IMaintenanceRecordService
+public class MaintenanceRecordService : IMaintenanceRecordService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IRepository<MaintenanceRecord> _repository = unitOfWork.MaintenanceRecordRepository;
-    private readonly IRepository<Models.Device> _deviceRepository = unitOfWork.DeviceRepository;
+    private readonly UnitOfWork _unitOfWork;
+    private readonly IRepository<MaintenanceRecord> _repository;
+    private readonly IRepository<Models.Device> _deviceRepository;
+
+    public MaintenanceRecordService(InventoryDbContext context)
+    {
+        _unitOfWork = new UnitOfWork(context);
+        _repository = _unitOfWork.MaintenanceRecordRepository;
+        _deviceRepository = _unitOfWork.DeviceRepository;
+    }
 
     public async Task<Result<bool>> CreateRecord(MaintenanceRecord record)
     {

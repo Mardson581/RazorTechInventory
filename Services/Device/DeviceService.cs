@@ -1,14 +1,22 @@
 using TechInventory.Models;
 using TechInventory.Data.Repository;
 using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 
 namespace TechInventory.Services.Device;
 
-public class DeviceService(IUnitOfWork unitOfWork) : IDeviceService
+public class DeviceService : IDeviceService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IRepository<Models.Device> _repository = unitOfWork.DeviceRepository;
-    private readonly IRepository<Models.DeviceModel> _modelRepository = unitOfWork.DeviceModelRepository;
+    private readonly UnitOfWork _unitOfWork;
+    private readonly IRepository<Models.Device> _repository;
+    private readonly IRepository<Models.DeviceModel> _modelRepository;
+
+    public DeviceService(InventoryDbContext context)
+    {
+        _unitOfWork = new UnitOfWork(context);
+        _repository = _unitOfWork.DeviceRepository;
+        _modelRepository = _unitOfWork.DeviceModelRepository;
+    }
 
     public async Task<Result<bool>> AddDevice(Models.Device device)
     {

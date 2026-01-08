@@ -1,13 +1,20 @@
 using TechInventory.Models;
 using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Brand;
 
-public class BrandService(IUnitOfWork unitOfWork) : IBrandService
+public class BrandService : IBrandService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IRepository<Models.Brand> _repository = unitOfWork.BrandRepository;
+    private readonly UnitOfWork _unitOfWork;
+    private readonly IRepository<Models.Brand> _repository;
+
+    public BrandService(InventoryDbContext context)
+    {
+        _unitOfWork = new UnitOfWork(context);
+        _repository = _unitOfWork.BrandRepository;
+    }
 
     public async Task<Result<bool>> CreateBrand(Models.Brand brand)
     {

@@ -9,7 +9,6 @@ public class Repository<T>(InventoryDbContext context) : IRepository<T> where T 
 {
     private readonly InventoryDbContext _context = context;
     private readonly DbSet<T> _set = context.Set<T>();
-    private bool _disposed = false;
     
     public async Task<Result<T>> CreateAsync(T Entity)
     {
@@ -76,5 +75,18 @@ public class Repository<T>(InventoryDbContext context) : IRepository<T> where T 
         }
                 
         return await query.FirstOrDefaultAsync(filter);
+    }
+
+    public async Task<Result<bool>> CommitAsync()
+    {
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Result<bool>.Success(true);
+        }
+        catch (DbUpdateException ex)
+        {
+            return Result<bool>.Failure($"Não foi possível salvar as informações {ex.Message}", false);
+        }
     }
 }

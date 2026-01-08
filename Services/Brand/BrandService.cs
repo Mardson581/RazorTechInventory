@@ -1,25 +1,17 @@
 using TechInventory.Models;
-using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Brand;
 
-public class BrandService : IBrandService, IDisposable
+public class BrandService(InventoryDbContext context) : IBrandService
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IRepository<Models.Brand> _repository;
-    private bool _disposed = false;
-    
-    public BrandService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = (UnitOfWork)unitOfWork;
-        _repository = _unitOfWork.BrandRepository;
-    }
+    private readonly IRepository<Models.Brand> _repository = new Repository<Models.Brand>(context);
 
     public async Task<Result<bool>> CreateBrand(Models.Brand brand)
     {
         await _repository.CreateAsync(brand);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public Task<Models.Brand> GetBrandById(int id)
@@ -40,7 +32,7 @@ public class BrandService : IBrandService, IDisposable
     public async Task<Result<bool>> UpdateBrand(Models.Brand brand)
     {
         _repository.Update(brand);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
     
     public async Task<Result<bool>> DeleteBrand(int id)
@@ -53,25 +45,6 @@ public class BrandService : IBrandService, IDisposable
         if (!deleteResult.IsSuccessful)
             return Result<bool>.Failure(deleteResult.Message, false);
 
-        return await _unitOfWork.CommitAsync();
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                // Nothing to dispose here as per the request.
-                // _unitOfWork is managed by DI container.
-            }
-            _disposed = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
+        return await _repository.CommitAsync();
     }
 }

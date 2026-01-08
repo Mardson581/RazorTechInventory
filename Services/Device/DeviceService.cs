@@ -1,22 +1,13 @@
 using TechInventory.Models;
 using TechInventory.Data.Repository;
-using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 
 namespace TechInventory.Services.Device;
 
-public class DeviceService : IDeviceService, IDisposable
+public class DeviceService(InventoryDbContext context) : IDeviceService
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IRepository<Models.Device> _repository;
-    private readonly IRepository<Models.DeviceModel> _deviceModelRepository;
-    private bool _disposed = false;
-
-    public DeviceService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = (UnitOfWork)unitOfWork;
-        _repository = _unitOfWork.DeviceRepository;
-        _deviceModelRepository = _unitOfWork.DeviceModelRepository;
-    }
+    private readonly IRepository<Models.Device> _repository = new Repository<Models.Device>(context);
+    private readonly IRepository<Models.DeviceModel> _deviceModelRepository = new Repository<Models.DeviceModel>(context);
 
     public async Task<Result<bool>> AddDevice(Models.Device device)
     {
@@ -25,7 +16,7 @@ public class DeviceService : IDeviceService, IDisposable
             return checkResult;
 
         await _repository.CreateAsync(device);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public async Task<Result<bool>> DeleteDevice(int id)
@@ -38,7 +29,7 @@ public class DeviceService : IDeviceService, IDisposable
         if (!deleteResult.IsSuccessful)
             return Result<bool>.Failure(deleteResult.Message, false);
 
-        var commitResult = await _unitOfWork.CommitAsync();
+        var commitResult = await _repository.CommitAsync();
 
         return commitResult.IsSuccessful ? Result<bool>.Success(true) : Result<bool>.Failure(commitResult.Message, false);
     }
@@ -48,9 +39,9 @@ public class DeviceService : IDeviceService, IDisposable
         var checkResult = await CheckIncludes(device);
         if (!checkResult.IsSuccessful)
             return checkResult;
-            
+
         _repository.Update(device);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public async Task<Models.Device?> GetDeviceById(int id)
@@ -91,25 +82,5 @@ public class DeviceService : IDeviceService, IDisposable
             return Result<bool>.Failure($"Modelo com Id {device.DeviceModelId} não foi encontrado", false);
 
         return Result<bool>.Success(true);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                // Nothing to dispose here as per the request.
-                // _unitOfWork is managed by DI container.
-            }
-
-            _disposed = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
     }
 }

@@ -15,4 +15,5 @@ public interface IRepository<T> where T : class
     public Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string[] includes = null);
     public Task<List<T>> GetWhere(Expression<Func<T, bool>> filter, string includes);
     public Task<T?> FirstOrDefault(Expression<Func<T, bool>> filter, string[] includes = null);
+    Task<Result<bool>> CommitAsync();
 }

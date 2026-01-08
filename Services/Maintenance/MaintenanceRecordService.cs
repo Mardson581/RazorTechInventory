@@ -1,22 +1,13 @@
 using TechInventory.Models;
-using TechInventory.Data.UnitOfWork;
+using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Maintenance;
 
-public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
+public class MaintenanceRecordService(InventoryDbContext context) : IMaintenanceRecordService
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IRepository<MaintenanceRecord> _repository;
-    private readonly IRepository<Models.Device> _deviceRepository; // This is correct
-    private bool _disposed = false;
-
-    public MaintenanceRecordService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = (UnitOfWork)unitOfWork;
-        _repository = _unitOfWork.MaintenanceRecordRepository;
-        _deviceRepository = _unitOfWork.DeviceRepository; // This is correct
-    }
+    private readonly IRepository<MaintenanceRecord> _repository = new Repository<MaintenanceRecord>(context);
+    private readonly IRepository<Models.Device> _deviceRepository = new Repository<Models.Device>(context);
 
     public async Task<Result<bool>> CreateRecord(MaintenanceRecord record)
     {
@@ -25,7 +16,7 @@ public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
             return checkResult;
 
         await _repository.CreateAsync(record);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public async Task<Result<bool>> UpdateRecord(MaintenanceRecord record)
@@ -35,7 +26,7 @@ public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
             return checkResult;
 
         _repository.Update(record);
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public async Task<Result<bool>> DeleteRecord(int id)
@@ -48,7 +39,7 @@ public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
         if (!deleteResult.IsSuccessful)
             return Result<bool>.Failure(deleteResult.Message, false);
 
-        return await _unitOfWork.CommitAsync();
+        return await _repository.CommitAsync();
     }
 
     public async Task<MaintenanceRecord> GetRecordById(int id)
@@ -80,25 +71,5 @@ public class MaintenanceRecordService : IMaintenanceRecordService, IDisposable
         if (device == null)
             return Result<bool>.Failure("O dispositivo associado ao registro não existe", false);
         return Result<bool>.Success(true);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                // Nothing to dispose here as per the request.
-                // _unitOfWork is managed by DI container.
-            }
-
-            _disposed = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
     }
 }

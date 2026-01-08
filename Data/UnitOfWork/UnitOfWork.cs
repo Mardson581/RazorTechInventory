@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public class UnitOfWork(InventoryDbContext context) : IUnitOfWork
+public class UnitOfWork(InventoryDbContext context) : IUnitOfWork, IDisposable
 {
+    private bool disposed = false;
     private readonly InventoryDbContext _context = context;
 
     private IRepository<Device> deviceRepository;
@@ -66,5 +67,13 @@ public class UnitOfWork(InventoryDbContext context) : IUnitOfWork
         {
             return Result<bool>.Failure($"Não foi possível salvar as informações {ex.Message}", false);
         }
+    }
+
+    public void Dispose()
+    {
+        if (disposed)
+            return;
+        disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

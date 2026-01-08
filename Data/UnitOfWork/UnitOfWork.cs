@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechInventory.Data.UnitOfWork;
 
-public class UnitOfWork(InventoryDbContext context) : IUnitOfWork, IDisposable
+public class UnitOfWork(InventoryDbContext context) : IUnitOfWork
 {
     private readonly InventoryDbContext _context = context;
 
@@ -66,21 +66,5 @@ public class UnitOfWork(InventoryDbContext context) : IUnitOfWork, IDisposable
         {
             return Result<bool>.Failure($"Não foi possível salvar as informações {ex.Message}", false);
         }
-    }
-
-    private bool disposed = false;
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!this.disposed)
-            if (disposing)
-                _context.Dispose();
-        this.disposed = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
     }
 }

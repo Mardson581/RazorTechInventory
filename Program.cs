@@ -15,11 +15,11 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
 );
 
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IDeviceService, DeviceService>();
-builder.Services.AddTransient<IDeviceModelService, DeviceModelService>();
-builder.Services.AddTransient<IBrandService, BrandService>();
-builder.Services.AddTransient<IMaintenanceRecordService, MaintenanceRecordService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IMaintenanceRecordService, MaintenanceRecordService>();
 
 var app = builder.Build();
 

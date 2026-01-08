@@ -1,7 +1,6 @@
 using TechInventory.Models;
 using TechInventory.Data.Repository;
 using TechInventory.Data.UnitOfWork;
-using TechInventory.Data.Context;
 
 namespace TechInventory.Services.Device;
 
@@ -9,13 +8,13 @@ public class DeviceService : IDeviceService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<Models.Device> _repository;
-    private readonly IRepository<Models.DeviceModel> _modelRepository;
+    private readonly IRepository<Models.DeviceModel> _deviceModelRepository;
 
-    public DeviceService(InventoryDbContext context)
+    public DeviceService(IUnitOfWork unitOfWork)
     {
-        _unitOfWork = new UnitOfWork(context);
+        _unitOfWork = (UnitOfWork)unitOfWork;
         _repository = _unitOfWork.DeviceRepository;
-        _modelRepository = _unitOfWork.DeviceModelRepository;
+        _deviceModelRepository = _unitOfWork.DeviceModelRepository;
     }
 
     public async Task<Result<bool>> AddDevice(Models.Device device)
@@ -85,7 +84,7 @@ public class DeviceService : IDeviceService
     public async Task<Result<bool>> CheckIncludes(Models.Device device)
     {
         // Check if the device's model exists
-        var result = await _modelRepository.GetAsync(device.DeviceModelId);
+        var result = await _deviceModelRepository.GetAsync(device.DeviceModelId);
 
         if (result == null)
             return Result<bool>.Failure($"Modelo com Id {device.DeviceModelId} não foi encontrado", false);

@@ -2,6 +2,7 @@ using TechInventory.Services.Device;
 using TechInventory.Services.DeviceModel;
 using TechInventory.Services.Brand;
 using TechInventory.Services.Maintenance;
+using TechInventory.Data.Repository;
 using TechInventory.Data.UnitOfWork;
 using TechInventory.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("AZURE_MYSQL_CONNECTIONSTRING"))
 );
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDeviceModelService, DeviceModelService>();
 builder.Services.AddScoped<IBrandService, BrandService>();

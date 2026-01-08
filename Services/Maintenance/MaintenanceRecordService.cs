@@ -1,6 +1,5 @@
 using TechInventory.Models;
 using TechInventory.Data.UnitOfWork;
-using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Maintenance;
@@ -9,13 +8,13 @@ public class MaintenanceRecordService : IMaintenanceRecordService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<MaintenanceRecord> _repository;
-    private readonly IRepository<Models.Device> _deviceRepository;
+    private readonly IRepository<Models.Device> _deviceRepository; // This is correct
 
-    public MaintenanceRecordService(InventoryDbContext context)
+    public MaintenanceRecordService(IUnitOfWork unitOfWork)
     {
-        _unitOfWork = new UnitOfWork(context);
+        _unitOfWork = (UnitOfWork)unitOfWork;
         _repository = _unitOfWork.MaintenanceRecordRepository;
-        _deviceRepository = _unitOfWork.DeviceRepository;
+        _deviceRepository = _unitOfWork.DeviceRepository; // This is correct
     }
 
     public async Task<Result<bool>> CreateRecord(MaintenanceRecord record)

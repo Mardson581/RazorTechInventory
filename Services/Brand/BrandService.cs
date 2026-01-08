@@ -1,6 +1,5 @@
 using TechInventory.Models;
 using TechInventory.Data.UnitOfWork;
-using TechInventory.Data.Context;
 using TechInventory.Data.Repository;
 
 namespace TechInventory.Services.Brand;
@@ -10,9 +9,9 @@ public class BrandService : IBrandService
     private readonly UnitOfWork _unitOfWork;
     private readonly IRepository<Models.Brand> _repository;
 
-    public BrandService(InventoryDbContext context)
+    public BrandService(IUnitOfWork unitOfWork)
     {
-        _unitOfWork = new UnitOfWork(context);
+        _unitOfWork = (UnitOfWork)unitOfWork;
         _repository = _unitOfWork.BrandRepository;
     }
 
